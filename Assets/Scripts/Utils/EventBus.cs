@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Utils
 {
-	public static class EventBus
+	public sealed class EventBus : IEventBus
 	{
 		private class Subscription
 		{
@@ -12,94 +11,76 @@ namespace Utils
 			public int Priority;
 		}
 
-		private static readonly Dictionary<Type, List<Subscription>> Events = new();
-		private static readonly Dictionary<Type, object> LastEvents = new();
+		private readonly Dictionary<Type, List<Subscription>> _events = new();
+		private readonly Dictionary<Type, object> _lastEvents = new();
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-		private static void Reset()
-		{
-			Events.Clear();
-			LastEvents.Clear();
-		}
-
-		public static void Subscribe<T>(Action<T> listener, int priority = 0, bool replayLast = false)
+		public IDisposable Subscribe<T>(Action<T> listener, int priority = 0, bool replayLast = false)
 		{
 			Type type = typeof(T);
 
-			if (!Events.TryGetValue(type, out List<Subscription> subs))
+			if (!_events.TryGetValue(type, out List<Subscription> subs))
 			{
 				subs = new();
-				Events[type] = subs;
+				_events[type] = subs;
 			}
 
 			if (subs.Exists(s => s.Callback.Equals(listener)))
-			{
-				#if UNITY_EDITOR
-				Debug.LogWarning($"Duplicate subscription to event {type.Name}");
-				#endif
-				return;
-			}
+				return new NoOpDisposable(); // just return a disposable that does nothing
 
-			subs.Add(new()
-			{
-				Callback = listener,
-				Priority = priority,
-			});
-
+			Subscription subscription = new() { Callback = listener, Priority = priority, };
+			subs.Add(subscription);
 			subs.Sort((a, b) => b.Priority.CompareTo(a.Priority));
 
-			if (replayLast && LastEvents.TryGetValue(type, out object lastEvent))
-				listener((T)lastEvent);
+			if (replayLast && _lastEvents.TryGetValue(type, out object last))
+				listener((T)last);
+
+			return new SubscriptionToken<T>(this, listener);
 		}
 
-		public static IDisposable SubscribeDisposable<T>(
-			Action<T> listener,
-			int priority = 0,
-			bool replayLast = false)
-		{
-			Subscribe(listener, priority, replayLast);
-			return new SubscriptionToken<T>(listener);
-		}
-
-		public static void Unsubscribe<T>(Action<T> listener)
+		public void Unsubscribe<T>(Action<T> listener)
 		{
 			Type type = typeof(T);
-			if (!Events.TryGetValue(type, out List<Subscription> subs))
+			if (!_events.TryGetValue(type, out List<Subscription> subs))
 				return;
 
 			subs.RemoveAll(s => s.Callback.Equals(listener));
 
 			if (subs.Count == 0)
-				Events.Remove(type);
+				_events.Remove(type);
 		}
 
-		public static void Publish<T>(T publishedEvent)
+		public void Publish<T>(T evt)
 		{
-			PublishInternal(publishedEvent, false);
-		}
-
-		public static void PublishSticky<T>(T publishedEvent)
-		{
-			PublishInternal(publishedEvent, true);
-		}
-
-		private static void PublishInternal<T>(T publishedEvent, bool remember)
-		{
-			if (remember)
-				LastEvents[typeof(T)] = publishedEvent;
-
-			if (!Events.TryGetValue(typeof(T), out List<Subscription> subs))
+			if (!_events.TryGetValue(typeof(T), out List<Subscription> subs))
 				return;
 
-			List<Subscription> snapshot = new(subs);
-			foreach (Subscription sub in snapshot)
-				(sub.Callback as Action<T>)?.Invoke(publishedEvent);
+			foreach (Subscription sub in new List<Subscription>(subs))
+				(sub.Callback as Action<T>)?.Invoke(evt);
 		}
 
-		public static void ClearAll()
+		public void PublishSticky<T>(T evt)
 		{
-			Events.Clear();
-			LastEvents.Clear();
+			_lastEvents[typeof(T)] = evt;
+			Publish(evt);
+		}
+
+		public void Clear()
+		{
+			_events.Clear();
+			_lastEvents.Clear();
+		}
+
+		// disposable that does nothing.
+		// We "promise" to return a IDisposable when calling Subscribe.
+		// By returning this, we avoid null checks in the caller code when subscribing multiple times with the same listener.
+		// You could argue that this isn't ideal. As it will now return something that does nothing.
+		// However, the idea is that when a duplicate subscription is registered, it shouldn't do something.
+		// So this is a compromise to keep the code clean in the caller side.
+		private sealed class NoOpDisposable : IDisposable
+		{
+			public void Dispose()
+			{
+			}
 		}
 	}
 }

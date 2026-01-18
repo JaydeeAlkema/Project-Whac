@@ -5,8 +5,8 @@ namespace Utils
 	[ExecuteAlways]
 	public class Maintain2DView : MonoBehaviour
 	{
-		public float _targetVerticalSize = 5f;    // half-height you designed for
-		public float _referenceAspect = 9f / 16f; // target aspect like 9x16
+		public float _targetVerticalSize = 5f;
+		public float _referenceAspect = 9f / 16f;
 
 		private Camera _camera;
 

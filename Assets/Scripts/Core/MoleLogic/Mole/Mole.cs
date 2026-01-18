@@ -4,42 +4,48 @@ using Utils;
 
 namespace Core.MoleLogic.Mole
 {
-	public class Mole : IMole
+	public sealed class Mole : IMole
 	{
-		private readonly int _spawnAnimationHash = Animator.StringToHash("Spawn");
-		private readonly int _hideAnimationHash = Animator.StringToHash("Hide");
-		private readonly int _hitAnimationHash = Animator.StringToHash("Hit");
-
-		private readonly Animator _animator;
+		private readonly IEventBus _eventBus;
+		private readonly int _scorePerHit;
 
 		public bool IsVisible { get; private set; }
 
-		public Mole(Animator animator)
+		// Animator is optional for tests; can be null in pure C#
+		private readonly Animator _animator;
+		private readonly int _spawnHash = Animator.StringToHash("Spawn");
+		private readonly int _hideHash = Animator.StringToHash("Hide");
+		private readonly int _hitHash = Animator.StringToHash("Hit");
+
+		public Mole(Animator animator, IEventBus eventBus, int scorePerHit = 100)
 		{
 			_animator = animator;
+			_eventBus = eventBus;
+			_scorePerHit = scorePerHit;
 			Hide();
 		}
 
 		public void Show()
 		{
 			IsVisible = true;
-			_animator.Play(_spawnAnimationHash);
+			_animator?.Play(_spawnHash);
 		}
 
 		public void Hide()
 		{
 			IsVisible = false;
-			_animator.Play(_hideAnimationHash);
+			_animator?.Play(_hideHash);
 		}
 
 		public void Hit()
 		{
-			if (!IsVisible)
-				return;
+			if (!IsVisible) return;
 
 			IsVisible = false;
-			_animator.Play(_hitAnimationHash);
-			EventBus.PublishSticky(new MoleOnHitEventArgs { Mole = this, });
+			_animator?.Play(_hitHash);
+
+			MoleOnHitEventArgs args = new(this, _scorePerHit);
+			_eventBus.PublishSticky(args);
 		}
 	}
 }

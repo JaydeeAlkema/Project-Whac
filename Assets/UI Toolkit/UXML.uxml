@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS.uss?fileID=7433441132597879392&amp;guid=371cac399e63a1b42b9dce477e890e44&amp;type=3#USS" />
+    <ui:VisualElement name="Game" style="flex-grow: 1; bottom: auto; left: auto; top: auto; height: 100%; max-height: 5%; position: absolute; right: auto; width: 100%;">
+        <ui:Label text="Score" name="Score" style="height: 150px; left: auto; top: auto; -unity-text-align: upper-left; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-start; position: absolute; padding-left: 32px; background-color: rgba(0, 0, 0, 0);">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="Value" data-source="project://database/Assets/Scriptable%20Objects/ScoreSO.asset?fileID=11400000&amp;guid=56cac35a418315243be1e57cf9c056f6&amp;type=2#ScoreSO" binding-mode="ToTarget" />
+            </Bindings>
+        </ui:Label>
+        <ui:Label text="Timer" name="Timer" style="height: 150px; left: auto; top: auto; -unity-text-align: upper-right; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-end; white-space: nowrap; position: absolute; padding-right: 32px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="GameOver" class="hidden" style="flex-grow: 1; bottom: auto; left: auto; top: auto; height: 100%; max-height: none; position: absolute; right: auto; width: 100%;">
+        <ui:Label text="Score" name="Score" style="height: 150px; left: 24px; top: 440px; -unity-text-align: upper-left; text-overflow: clip; font-size: 100%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-start; position: absolute; padding-left: 32px;" />
+        <ui:Label text="Timer" name="Timer" style="height: 150px; left: 818px; top: 444px; -unity-text-align: upper-right; text-overflow: clip; font-size: 100%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-end; white-space: nowrap; position: absolute; padding-right: 32px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -30,7 +30,7 @@ namespace Core.MoleLogic.MoleSpawner
 
 		private void Update()
 		{
-			_moleSpawner?.Tick(Time.deltaTime);
+			_moleSpawner?.Tick(UnityEngine.Time.deltaTime);
 		}
 	}
 }

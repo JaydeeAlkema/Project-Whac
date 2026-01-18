@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Core.MoleLogic.Mole;
-using Core.RandomProvider;
+using Core.Random;
 using UnityEngine;
 
 namespace Core.MoleLogic.MoleSpawner
 {
-	public class MoleSpawner : IMoleSpawner
+	public sealed class MoleSpawner : IMoleSpawner
 	{
 		private readonly List<IMole> _moles;
 		private readonly SystemRandomProvider _random;

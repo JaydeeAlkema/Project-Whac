@@ -1,4 +1,4 @@
-﻿namespace Core.RandomProvider
+﻿namespace Core.Random
 {
 	public interface IRandomProvider
 	{

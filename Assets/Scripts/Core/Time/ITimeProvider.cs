@@ -1,4 +1,4 @@
-﻿namespace Core.TimeProvider
+﻿namespace Core.Time
 {
 	public interface ITimeProvider
 	{

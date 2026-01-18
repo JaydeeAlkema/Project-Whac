@@ -2,26 +2,23 @@
 
 namespace Utils
 {
-	/// <summary>
-	///     Token representing a subscription to an event. Disposing the token will unsubscribe the listener.
-	/// </summary>
-	/// <typeparam name="T"> The type of the event. </typeparam>
 	internal sealed class SubscriptionToken<T> : IDisposable
 	{
+		private readonly IEventBus _bus;
 		private readonly Action<T> _listener;
 		private bool _disposed;
 
-		public SubscriptionToken(Action<T> listener)
+		public SubscriptionToken(IEventBus bus, Action<T> listener)
 		{
+			_bus = bus;
 			_listener = listener;
 		}
 
 		public void Dispose()
 		{
-			if (_disposed)
-				return;
+			if (_disposed) return;
 
-			EventBus.Unsubscribe(_listener);
+			_bus.Unsubscribe(_listener);
 			_disposed = true;
 		}
 	}
