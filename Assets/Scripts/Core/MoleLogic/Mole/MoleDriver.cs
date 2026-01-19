@@ -12,7 +12,7 @@ namespace Core.MoleLogic.Mole
 
 		public IMole Mole { get; private set; }
 
-		private void Awake()
+		private void Start()
 		{
 			Animator animator = GetComponent<Animator>();
 			Mole = new Mole(animator, _gameCompositionRoot.EventBus);
