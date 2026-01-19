@@ -1,30 +1,49 @@
 ﻿using Core.MoleLogic.Mole;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Core.InputTouchHandler
 {
-	public class InputTouchHandler : MonoBehaviour
+	public sealed class InputTouchHandler : MonoBehaviour
 	{
-		private Camera _camera;
+		[SerializeField] private Camera _camera;
+
+		private InputAction _primaryPress;
 
 		private void Awake()
 		{
-			_camera = Camera.main;
+			if (_camera == null)
+				_camera = Camera.main;
+
+			// Create action in code (or inject from asset)
+			_primaryPress = new(
+				"PrimaryPress",
+				InputActionType.Button,
+				"<Pointer>/press"
+			);
+
+			_primaryPress.performed += OnPrimaryPress;
 		}
 
-		private void Update()
+		private void OnEnable()
 		{
-			// On mobile, use touch
-			if (Input.touchCount > 0)
-			{
-				Touch touch = Input.GetTouch(0);
-				if (touch.phase == TouchPhase.Began)
-					TryHitAt(touch.position);
-			}
+			_primaryPress.Enable();
+		}
 
-			// Also support mouse click for editor testing
-			if (Input.GetMouseButtonDown(0))
-				TryHitAt(Input.mousePosition);
+		private void OnDisable()
+		{
+			_primaryPress.Disable();
+		}
+
+		private void OnDestroy()
+		{
+			_primaryPress.performed -= OnPrimaryPress;
+		}
+
+		private void OnPrimaryPress(InputAction.CallbackContext context)
+		{
+			Vector2 screenPosition = Pointer.current.position.ReadValue();
+			TryHitAt(screenPosition);
 		}
 
 		private void TryHitAt(Vector2 screenPosition)
