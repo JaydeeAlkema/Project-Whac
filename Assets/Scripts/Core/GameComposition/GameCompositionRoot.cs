@@ -16,6 +16,8 @@ namespace Core.GameComposition
 			EventBus = new EventBus();
 			ScoreService = new ScoreService(EventBus);
 			TimerService = new TimerService(EventBus);
+
+			Application.targetFrameRate = 60;
 		}
 
 		private void OnDestroy()
