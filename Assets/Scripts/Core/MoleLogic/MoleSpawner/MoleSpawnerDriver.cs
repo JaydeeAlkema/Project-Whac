@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.MoleLogic.Mole;
 using Core.Time;
 using NaughtyAttributes;
@@ -15,25 +14,36 @@ namespace Core.MoleLogic.MoleSpawner
 		[BoxGroup("Settings")]
 		[SerializeField] private float _hideTime = 1f;
 
+		[BoxGroup("Settings")]
+		[SerializeField] private List<MoleDriver> _moles = new();
+
 		private IMoleSpawner _moleSpawner;
 		private ITimeProvider _timeProvider;
 
+		private bool _canUpdate;
+
 		private void Start()
 		{
-			List<IMole> moles = GetComponentsInChildren<MoleDriver>().Select(m => m.Mole).ToList();
+			foreach (MoleDriver mole in _moles) mole.Initialize();
+			List<IMole> moleInterfaces = _moles.ConvertAll(moleDriver => moleDriver.Mole);
 			_timeProvider = new TimeProvider();
 
 			_moleSpawner = new MoleSpawner(
-				moles,
+				moleInterfaces,
 				new(),
 				_spawnTime,
 				_hideTime
 			);
+
+			_canUpdate = true;
 		}
 
 		private void Update()
 		{
-			_moleSpawner?.Tick(_timeProvider.DeltaTime);
+			if (!_canUpdate)
+				return;
+
+			_moleSpawner.Tick(_timeProvider.DeltaTime);
 		}
 	}
 }
