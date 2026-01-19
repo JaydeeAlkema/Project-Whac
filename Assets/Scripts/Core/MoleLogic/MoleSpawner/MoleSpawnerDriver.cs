@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Core.MoleLogic.Mole;
+using Core.Time;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -15,10 +16,12 @@ namespace Core.MoleLogic.MoleSpawner
 		[SerializeField] private float _hideTime = 1f;
 
 		private IMoleSpawner _moleSpawner;
+		private ITimeProvider _timeProvider;
 
 		private void Start()
 		{
 			List<IMole> moles = GetComponentsInChildren<MoleDriver>().Select(m => m.Mole).ToList();
+			_timeProvider = new TimeProvider();
 
 			_moleSpawner = new MoleSpawner(
 				moles,
@@ -30,7 +33,7 @@ namespace Core.MoleLogic.MoleSpawner
 
 		private void Update()
 		{
-			_moleSpawner?.Tick(UnityEngine.Time.deltaTime);
+			_moleSpawner?.Tick(_timeProvider.DeltaTime);
 		}
 	}
 }

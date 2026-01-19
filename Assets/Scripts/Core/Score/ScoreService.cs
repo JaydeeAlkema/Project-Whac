@@ -8,7 +8,7 @@ namespace Core.Score
 	{
 		public event Action<int> ScoreChanged;
 		public int Score { get; private set; }
-		
+
 		private readonly IDisposable _subscription;
 
 		public ScoreService(IEventBus bus)
