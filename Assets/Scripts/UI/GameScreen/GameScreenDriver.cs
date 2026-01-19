@@ -24,8 +24,8 @@ namespace UI.GameScreen
 
 		private void OnDestroy()
 		{
-			_scoreScope.Dispose();
-			_timerScope.Dispose();
+			_scoreScope?.Dispose();
+			_timerScope?.Dispose();
 		}
 	}
 }

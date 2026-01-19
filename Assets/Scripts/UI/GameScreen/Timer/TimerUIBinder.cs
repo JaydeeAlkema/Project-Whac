@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UI.GameScreen.Timer
@@ -13,25 +14,19 @@ namespace UI.GameScreen.Timer
 		{
 			_viewModel = viewModel;
 			_timerLabel = root.Q<Label>("timer");
+			Debug.Assert(_timerLabel != null, "Timer label not found in UXML");
 
-			_timerLabel.text = _viewModel.Timer.ToString("F1", CultureInfo.InvariantCulture);
-			_viewModel.OnTick += OnTimerTick;
+			_viewModel.OnTimerTextChanged += OnTimerTextChanged;
 		}
 
-		private void OnTimerTick(float time)
+		private void OnTimerTextChanged(string text)
 		{
-			if (time <= 0)
-			{
-				_timerLabel.text = "0";
-				return;
-			}
-
-			_timerLabel.text = _viewModel.Timer.ToString("F1", CultureInfo.InvariantCulture);
+			_timerLabel.text = text;
 		}
 
 		public void Dispose()
 		{
-			_viewModel.OnTick -= OnTimerTick;
+			_viewModel.OnTimerTextChanged -= OnTimerTextChanged;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using EventArgs;
+using EventArgs.Timer;
 using Utils;
 
 namespace Core.Timer
@@ -7,13 +7,19 @@ namespace Core.Timer
 	public sealed class TimerService : ITimerService
 	{
 		public event Action<float> OnTick;
+		public event Action<float> OnStarted;
+		public event Action<float> OnEnded;
 		public float Time { get; private set; }
 
-		private readonly IDisposable _subscription;
+		private readonly IDisposable _onTimerTickSubscription;
+		private readonly IDisposable _onTimerStartedSubscription;
+		private readonly IDisposable _onTimerEndedSubscription;
 
 		public TimerService(IEventBus bus)
 		{
-			_subscription = bus.Subscribe<TimerOnTickEventArgs>(OnTimerTick);
+			_onTimerTickSubscription = bus.Subscribe<TimerOnTickEventArgs>(OnTimerTick);
+			_onTimerStartedSubscription = bus.Subscribe<TimerStartedEventArgs>(OnTimerStarted);
+			_onTimerEndedSubscription = bus.Subscribe<TimerEndedEventArgs>(OnTimerEnded);
 		}
 
 		private void OnTimerTick(TimerOnTickEventArgs args)
@@ -22,9 +28,23 @@ namespace Core.Timer
 			OnTick?.Invoke(Time);
 		}
 
+		private void OnTimerStarted(TimerStartedEventArgs args)
+		{
+			Time = args.Time;
+			OnStarted?.Invoke(Time);
+		}
+
+		private void OnTimerEnded(TimerEndedEventArgs args)
+		{
+			Time = args.Time;
+			OnEnded?.Invoke(Time);
+		}
+
 		public void Dispose()
 		{
-			_subscription.Dispose();
+			_onTimerTickSubscription.Dispose();
+			_onTimerStartedSubscription.Dispose();
+			_onTimerEndedSubscription.Dispose();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace EventArgs
+﻿namespace EventArgs.Timer
 {
 	public struct TimerOnTickEventArgs
 	{
