@@ -4,4 +4,11 @@
         <ui:Label name="score" text="Score" style="height: 150px; left: auto; top: auto; -unity-text-align: upper-left; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-start; position: absolute; padding-left: 32px; background-color: rgba(0, 0, 0, 0);" />
         <ui:Label text="Timer" name="timer" style="height: 150px; left: auto; top: auto; -unity-text-align: upper-right; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 35%; right: auto; align-items: flex-start; align-self: flex-end; white-space: nowrap; position: absolute; padding-right: 32px;" />
     </ui:VisualElement>
+    <ui:GroupBox name="gameOver" class="hidden" style="height: auto; width: 90%; right: auto; bottom: 10%; left: 5%; top: 10%; position: relative; background-color: rgba(0, 0, 0, 0.47); flex-shrink: 1; flex-direction: column; flex-basis: 80%;">
+        <ui:Label name="gameOverText" text="Game Over" style="height: 150px; left: auto; top: auto; -unity-text-align: middle-center; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 100%; right: auto; align-items: flex-start; align-self: flex-start; position: relative; padding-left: 2px; background-color: rgba(0, 0, 0, 0);" />
+        <ui:TextField placeholder-text="Username" hide-placeholder-on-focus="false" name="usernameTextField" style="width: 50%; left: 25%; height: 89px; font-size: 43px;" />
+        <ui:VisualElement name="spacer" style="flex-grow: 1; height: 106px;" />
+        <ui:Label name="yourScoreText" text="Your Score:" style="height: 150px; left: auto; top: auto; -unity-text-align: middle-center; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 100%; right: auto; align-items: flex-start; align-self: flex-start; position: relative; padding-left: 2px; background-color: rgba(0, 0, 0, 0);" />
+        <ui:Label name="scoreText" text="99999" style="height: 150px; left: auto; top: auto; -unity-text-align: middle-center; text-overflow: clip; font-size: 80%; color: rgb(255, 255, 255); width: 100%; right: auto; align-items: flex-start; align-self: flex-start; position: relative; padding-left: 2px; background-color: rgba(0, 0, 0, 0);" />
+    </ui:GroupBox>
 </ui:UXML>
