@@ -42,6 +42,9 @@ The UI layer uses an **MVVM-inspired approach** tailored to Unity UI Toolkit:
   Owns the lifetime of ViewModels and Binders.
 
 This keeps UI logic free of MonoBehaviours and makes it easy to reason about UI lifetimes.
+I must admit, I think almost the majority of my time was put in the UI.
+I think I shot myself in the foot a little bit by choosing to use UI Toolkit.
+But it was also a good learning experience, so I don't regret it :)
 
 ## Event System
 An in-house **EventBus** is used for **decoupled communication** between systems.
