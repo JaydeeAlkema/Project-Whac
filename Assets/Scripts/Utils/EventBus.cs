@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Utils
 {
+	/// <summary>
+	///     I really enjoy using eventbuses. I'm aware that they can eventually be a pain in the ass.
+	///     however, I figured that for a simple/small game like this, it's absolutely fine to make use of.
+	///     Even though I kind of already abused this for "GameOnStartEventArgs" & "GameOnRestartEventArgs".
+	///     Because those events are meant for control flow. The difference between these events and others, is that
+	///     these can be interpreted as commands, not facts. "MoleOnHitEventArgs" is a fact, "GameOnStartEventArgs" is not.
+	/// </summary>
 	public sealed class EventBus : IEventBus
 	{
 		private class Subscription

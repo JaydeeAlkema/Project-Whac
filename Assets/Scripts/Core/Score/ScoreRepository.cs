@@ -54,9 +54,7 @@ namespace Core.Score
 
 		public IReadOnlyList<ScoreEntry> GetAll()
 		{
-			return _entries
-				.OrderByDescending(e => e._score)
-				.ToList();
+			return _entries.OrderByDescending(e => e._score).ToList();
 		}
 	}
 }

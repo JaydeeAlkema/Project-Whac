@@ -12,7 +12,14 @@ using UnityEngine.UIElements;
 
 namespace UI
 {
-	public sealed class ScreenDriver : MonoBehaviour
+	/// <summary>
+	///     This is probably the messiest class out of all.
+	///     I kind of shot myself in the foot using UI Toolkit. I like the system and would love to get better at it.
+	///     However, since I have barely any experience with UI Toolkit, I made some shortcuts here and there to
+	///     get it to behave like I want it to. Hindsight 20-20. So that is why this class is suddenly not as
+	///     well constructed as the rest.
+	/// </summary>
+	public sealed class GameFlowController : MonoBehaviour
 	{
 		[SerializeField] private UIDocument _ui;
 		[SerializeField] private GameCompositionRoot _compositionRoot;

@@ -4,6 +4,12 @@ using UnityEngine.InputSystem;
 
 namespace Core.InputTouchHandler
 {
+	/// <summary>
+	///     Handles touch input and interacts with moles when they are tapped.
+	///     Since it really only triggers the hits on the moles, I could have maybe renamed it to
+	///     something like "InputTouchMoleHitter"?
+	///     but that didn't read as nicely.
+	/// </summary>
 	public sealed class InputTouchHandler : MonoBehaviour
 	{
 		[SerializeField] private Camera _camera;

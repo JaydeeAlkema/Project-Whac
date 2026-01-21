@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Core.MoleLogic.Mole
 {
-	public class MoleDriver : MonoBehaviour, IPointerClickHandler
+	public class MoleDriver : MonoBehaviour
 	{
 		[BoxGroup("Dependencies")]
 		[SerializeField] private GameCompositionRoot _gameCompositionRoot;
@@ -16,11 +16,6 @@ namespace Core.MoleLogic.Mole
 		{
 			Animator animator = GetComponent<Animator>();
 			Mole = new Mole(animator, _gameCompositionRoot.EventBus);
-		}
-
-		public void OnPointerClick(PointerEventData eventData)
-		{
-			Mole.Hit();
 		}
 	}
 }
