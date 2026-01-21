@@ -6,5 +6,6 @@ namespace Core.Score
 	{
 		public event Action<int> ScoreChanged;
 		int Score { get; }
+		ScoreEntry CreateEntry(string username);
 	}
 }

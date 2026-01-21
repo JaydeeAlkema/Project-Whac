@@ -1,5 +1,7 @@
 ﻿using System;
 using EventArgs;
+using EventArgs.GameLoop;
+using UnityEngine;
 using Utils;
 
 namespace Core.Score
@@ -9,11 +11,25 @@ namespace Core.Score
 		public event Action<int> ScoreChanged;
 		public int Score { get; private set; }
 
-		private readonly IDisposable _subscription;
+		private readonly IDisposable _onMoleHitDisposable;
+		private readonly IDisposable _gameRestartDisposable;
 
 		public ScoreService(IEventBus bus)
 		{
-			_subscription = bus.Subscribe<MoleOnHitEventArgs>(OnMoleHit);
+			_gameRestartDisposable = bus.Subscribe<GameOnRestartEventArgs>(OnGameRestart);
+			_onMoleHitDisposable = bus.Subscribe<MoleOnHitEventArgs>(OnMoleHit);
+		}
+
+		public void Dispose()
+		{
+			_onMoleHitDisposable.Dispose();
+			_gameRestartDisposable.Dispose();
+		}
+
+		private void OnGameRestart(GameOnRestartEventArgs _)
+		{
+			Score = 0;
+			ScoreChanged?.Invoke(Score);
 		}
 
 		private void OnMoleHit(MoleOnHitEventArgs args)
@@ -22,9 +38,13 @@ namespace Core.Score
 			ScoreChanged?.Invoke(Score);
 		}
 
-		public void Dispose()
+		public ScoreEntry CreateEntry(string username)
 		{
-			_subscription.Dispose();
+			return new()
+			{
+				_username = username,
+				_score = Score,
+			};
 		}
 	}
 }

@@ -3,5 +3,6 @@
 	public interface IMoleSpawner
 	{
 		void Tick(float deltaTime);
+		void Reset();
 	}
 }

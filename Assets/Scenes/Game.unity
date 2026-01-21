@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _compositionRoot: {fileID: 835204189}
-  _timerStartValue: 60
+  _timerStartValue: 10
 --- !u!4 &61980463
 Transform:
   m_ObjectHideFlags: 0
@@ -1025,6 +1025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fa5d3e077443b4897b76c46da54778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _root: {fileID: 835204189}
   _spawnTime: 1.5
   _hideTime: 1
   _moles:
@@ -1166,6 +1167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ui: {fileID: 546274397}
   _compositionRoot: {fileID: 835204189}
+  _highScoreRowTemplate: {fileID: 9197481963319205126, guid: d0a48919793f3d648b0becee2c272d06, type: 3}
 --- !u!4 &1902011130
 Transform:
   m_ObjectHideFlags: 0

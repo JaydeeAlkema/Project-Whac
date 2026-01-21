@@ -4,3 +4,13 @@ VisualElement {
 .hidden {
     display: none;
 }
+
+.score-row {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 6px 12px;
+}
+
+.score-row Label {
+    font-size: 16px;
+}

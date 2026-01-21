@@ -15,7 +15,6 @@ namespace UI.GameScreen.Score
 			_scoreLabel = root.Q<Label>("score");
 			Debug.Assert(_scoreLabel != null, "Score label not found in UXML");
 
-
 			_scoreLabel.text = _viewModel.Score.ToString();
 			_viewModel.ScoreChanged += OnScoreChanged;
 		}

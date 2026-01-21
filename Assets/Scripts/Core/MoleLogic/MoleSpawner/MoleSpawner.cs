@@ -44,6 +44,18 @@ namespace Core.MoleLogic.MoleSpawner
 			HideActiveMole();
 		}
 
+		public void Reset()
+		{
+			_spawnTimer = 0f;
+			_hideTimer = 0f;
+
+			if (_activeMole == null)
+				return;
+
+			_activeMole.Hide();
+			_activeMole = null;
+		}
+
 		private void ShowRandomMole()
 		{
 			if (_activeMole != null)
