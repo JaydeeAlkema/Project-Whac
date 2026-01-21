@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _compositionRoot: {fileID: 835204189}
-  _timerStartValue: 10
+  _timerStartValue: 30
 --- !u!4 &61980463
 Transform:
   m_ObjectHideFlags: 0
@@ -552,7 +552,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.324324
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
